@@ -1,2 +1,1 @@
-# anrdoid_2022
- 
+shualeduris project
