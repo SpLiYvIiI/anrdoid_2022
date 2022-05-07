@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">android_2022_tsu_shualeduri</string>
+    <string name="app_name">My application</string>
+    <string name="name_input">enter your name</string>
+    <string name="login_text_lul">Login</string>
+    <string name="hello_message"></string>
 </resources>

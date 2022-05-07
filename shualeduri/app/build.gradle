@@ -5,7 +5,12 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 32
     buildToolsVersion "32.0.0"
-
+    buildFeatures{
+        viewBinding = true
+    }
+    lintOptions{
+        abortOnError = false
+    }
     defaultConfig {
         applicationId "get.tsu.android2022.shualeduri"
         minSdkVersion 16
