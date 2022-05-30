@@ -6,6 +6,10 @@ apply plugin: 'com.android.application'
     compileSdkVersion 32
     buildToolsVersion "32.0.0"
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     defaultConfig {
       applicationId "get.tsu.android2022.tictactoe_minimax"
       minSdkVersion 16
@@ -14,6 +18,10 @@ apply plugin: 'com.android.application'
       versionName "1.0"
 
       testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures{
+        viewBinding = true
     }
 
     buildTypes {
