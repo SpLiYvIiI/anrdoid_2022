@@ -2,22 +2,23 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" xmlns:tools="http://schemas.android.com/tools"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent" android:layout_height="match_parent"
         tools:context=".GameActivity"
-        >
+        android:background="@android:color/holo_purple"
+>
 
     <TextView
-            android:id="@+id/turnTV"
+            android:id="@+id/mainLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Turn X"
             android:textColor="@color/black"
             android:textSize="40sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintVertical_bias="0.0"/>
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -27,9 +28,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="0.278" android:id="@+id/linearLayout">
         <LinearLayout
                 style="@style/row">
 
@@ -60,21 +60,21 @@
 
             <Button
                     android:id="@+id/b1"
-                    style="@style/column" />
+                    style="@style/column"/>
 
             <View
                     style="@style/verticalLine"/>
 
             <Button
                     android:id="@+id/b2"
-                    style="@style/column" />
+                    style="@style/column"/>
 
             <View
                     style="@style/verticalLine"/>
 
             <Button
                     android:id="@+id/b3"
-                    style="@style/column" />
+                    style="@style/column"/>
 
         </LinearLayout>
 
@@ -86,26 +86,74 @@
 
             <Button
                     android:id="@+id/c1"
-                    style="@style/column" />
+                    style="@style/column"/>
 
             <View
                     style="@style/verticalLine"/>
 
             <Button
                     android:id="@+id/c2"
-                    style="@style/column" />
+                    style="@style/column"/>
 
             <View
                     style="@style/verticalLine"/>
 
             <Button
                     android:id="@+id/c3"
-                    style="@style/column" />
+                    style="@style/column"/>
 
         </LinearLayout>
 
 
-
     </LinearLayout>
+    <Button
+            android:text="@string/go_back"
+            android:layout_width="130dp"
+            android:layout_height="60dp" android:id="@+id/goBack"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.053" app:layout_constraintVertical_bias="0.967"/>
+    <Button
+            android:text="@string/reset_board"
+            android:layout_width="130dp"
+            android:layout_height="60dp" android:id="@+id/resetBoard"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.949" app:layout_constraintVertical_bias="0.965"/>
+    <TextView
+            android:text="@string/score_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/textView4"
+            android:textSize="36sp" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintVertical_bias="0.733"/>
+    <TextView
+            android:layout_width="133dp"
+            android:layout_height="44dp" android:id="@+id/firstPlayerName"
+            android:textSize="20sp" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.057"
+            app:layout_constraintVertical_bias="0.803" android:gravity="center"/>
+    <TextView
+            android:layout_width="133dp"
+            android:layout_height="44dp" android:id="@+id/secondPlayerName"
+            android:textSize="20sp" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.942"
+            app:layout_constraintVertical_bias="0.803" android:gravity="center"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/firstPlayerScore"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.189"
+            app:layout_constraintVertical_bias="0.856" android:gravity="center"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/secondPlayerScore"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.798" app:layout_constraintVertical_bias="0.856"
+            android:gravity="center"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

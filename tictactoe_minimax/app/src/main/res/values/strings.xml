@@ -10,4 +10,6 @@
     <string name="your_name">YOUR NAME</string>
     <string name="friends_name">FRIENDS NAME</string>
     <string name="lashas_mama">LASHAS MAMA</string>
+    <string name="reset_board">RESET BOARD</string>
+    <string name="score_label">SCORE</string>
 </resources>

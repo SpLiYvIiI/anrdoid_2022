@@ -1,70 +1,102 @@
 package get.tsu.android2022.tictactoe_minimax
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Button
-import androidx.appcompat.app.AlertDialog
 import get.tsu.android2022.tictactoe_minimax.databinding.ActivityGameBinding
 
 class GameActivity : AppCompatActivity() {
-    enum class Turn
-    {
-        NOUGHT,
-        CROSS
-    }
 
-    private var firstTurn = Turn.CROSS
-    private var currentTurn = Turn.CROSS
+    private var currentTurn = 1
+    private var gameIsOver = false
 
-    private var crossesScore = 0
-    private var noughtsScore = 0
+    private var firstPlayerScore = 0
+    private var secondPlayerScore = 0
+
+    private lateinit var firstPlayerName: String
+    private lateinit var secondPlayerName: String
 
     private var boardList = mutableListOf<Button>()
 
-    private lateinit var binding : ActivityGameBinding
+
+    private lateinit var sp: SharedPreferences
+    private lateinit var activityGameBinding: ActivityGameBinding
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        binding = ActivityGameBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        activityGameBinding = ActivityGameBinding.inflate(layoutInflater)
+        activityGameBinding.goBack.setOnClickListener{
+            var intent = Intent(this,MainActivity::class.java)
+            startActivity(intent)
+        }
+        activityGameBinding.resetBoard.setOnClickListener{
+            resetBoard()
+        }
+        sp = getSharedPreferences("PLAYERS_INFO", Context.MODE_PRIVATE)
+        firstPlayerName = sp.getString("YOUR_NAME","ZAURI").toString()
+        secondPlayerName = sp.getString("FRIENDS_NAME","LAMARA").toString()
+        activityGameBinding.firstPlayerName.text = firstPlayerName
+        activityGameBinding.secondPlayerName.text = secondPlayerName
+        sp.edit().apply{
+            remove("YOUR_NAME")
+            remove("FRIENDS_NAME")
+        }.apply()
         initBoard()
+        initLabels()
+        setContentView(activityGameBinding.root)
     }
 
+
+    private fun initLabels(){
+        setScoreBoard()
+        setLabel()
+    }
     private fun initBoard()
     {
-        boardList.add(binding.a1)
-        boardList.add(binding.a2)
-        boardList.add(binding.a3)
-        boardList.add(binding.b1)
-        boardList.add(binding.b2)
-        boardList.add(binding.b3)
-        boardList.add(binding.c1)
-        boardList.add(binding.c2)
-        boardList.add(binding.c3)
+        boardList.add(activityGameBinding.a1)
+        boardList.add(activityGameBinding.a2)
+        boardList.add(activityGameBinding.a3)
+        boardList.add(activityGameBinding.b1)
+        boardList.add(activityGameBinding.b2)
+        boardList.add(activityGameBinding.b3)
+        boardList.add(activityGameBinding.c1)
+        boardList.add(activityGameBinding.c2)
+        boardList.add(activityGameBinding.c3)
     }
 
     fun boardTapped(view: View)
     {
         if(view !is Button)
             return
-        addToBoard(view)
+        if(!gameIsOver) {
+            addToBoard(view)
 
-        if(checkForVictory(NOUGHT))
-        {
-            noughtsScore++
-            result("Noughts Win!")
-        }
-        else if(checkForVictory(CROSS))
-        {
-            crossesScore++
-            result("Crosses Win!")
-        }
+            var isNoughtVictorious = checkForVictory("O")
+            var isCrossVictorious = checkForVictory("X")
 
-        if(fullBoard())
-        {
-            result("Draw")
+            if (isCrossVictorious) {
+                gameIsOver = true
+                firstPlayerScore++
+                setLabel("$firstPlayerName has won")
+                setScoreBoard()
+            } else if (isNoughtVictorious) {
+                gameIsOver = true
+                secondPlayerScore++
+                setLabel("$secondPlayerName has won")
+                setScoreBoard()
+            }
+
+            if (!isCrossVictorious && !isNoughtVictorious && fullBoard()) {
+                gameIsOver = true
+                setLabel("Draw")
+            }
         }
 
     }
@@ -72,25 +104,25 @@ class GameActivity : AppCompatActivity() {
     private fun checkForVictory(s: String): Boolean
     {
         //Horizontal Victory
-        if(match(binding.a1,s) && match(binding.a2,s) && match(binding.a3,s))
+        if(match(activityGameBinding.a1,s) && match(activityGameBinding.a2,s) && match(activityGameBinding.a3,s))
             return true
-        if(match(binding.b1,s) && match(binding.b2,s) && match(binding.b3,s))
+        if(match(activityGameBinding.b1,s) && match(activityGameBinding.b2,s) && match(activityGameBinding.b3,s))
             return true
-        if(match(binding.c1,s) && match(binding.c2,s) && match(binding.c3,s))
+        if(match(activityGameBinding.c1,s) && match(activityGameBinding.c2,s) && match(activityGameBinding.c3,s))
             return true
 
         //Vertical Victory
-        if(match(binding.a1,s) && match(binding.b1,s) && match(binding.c1,s))
+        if(match(activityGameBinding.a1,s) && match(activityGameBinding.b1,s) && match(activityGameBinding.c1,s))
             return true
-        if(match(binding.a2,s) && match(binding.b2,s) && match(binding.c2,s))
+        if(match(activityGameBinding.a2,s) && match(activityGameBinding.b2,s) && match(activityGameBinding.c2,s))
             return true
-        if(match(binding.a3,s) && match(binding.b3,s) && match(binding.c3,s))
+        if(match(activityGameBinding.a3,s) && match(activityGameBinding.b3,s) && match(activityGameBinding.c3,s))
             return true
 
         //Diagonal Victory
-        if(match(binding.a1,s) && match(binding.b2,s) && match(binding.c3,s))
+        if(match(activityGameBinding.a1,s) && match(activityGameBinding.b2,s) && match(activityGameBinding.c3,s))
             return true
-        if(match(binding.a3,s) && match(binding.b2,s) && match(binding.c1,s))
+        if(match(activityGameBinding.a3,s) && match(activityGameBinding.b2,s) && match(activityGameBinding.c1,s))
             return true
 
         return false
@@ -98,19 +130,6 @@ class GameActivity : AppCompatActivity() {
 
     private fun match(button: Button, symbol : String): Boolean = button.text == symbol
 
-    private fun result(title: String)
-    {
-        val message = "\nNoughts $noughtsScore\n\nCrosses $crossesScore"
-        AlertDialog.Builder(this)
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton("Reset")
-            { _,_ ->
-                resetBoard()
-            }
-            .setCancelable(false)
-            .show()
-    }
 
     private fun resetBoard()
     {
@@ -118,14 +137,8 @@ class GameActivity : AppCompatActivity() {
         {
             button.text = ""
         }
-
-        if(firstTurn == Turn.NOUGHT)
-            firstTurn = Turn.CROSS
-        else if(firstTurn == Turn.CROSS)
-            firstTurn = Turn.NOUGHT
-
-        currentTurn = firstTurn
-        setTurnLabel()
+        currentTurn = 1
+        setLabel()
     }
 
     private fun fullBoard(): Boolean
@@ -143,34 +156,41 @@ class GameActivity : AppCompatActivity() {
         if(button.text != "")
             return
 
-        if(currentTurn == Turn.NOUGHT)
+        if(currentTurn == 1)
         {
-            button.text = NOUGHT
-            currentTurn = Turn.CROSS
+            button.text = "X"
+            currentTurn = 0
         }
-        else if(currentTurn == Turn.CROSS)
-        {
-            button.text = CROSS
-            currentTurn = Turn.NOUGHT
+        else{
+            currentTurn = 1
+            button.text = "O"
         }
-        setTurnLabel()
+        setLabel()
     }
 
-    private fun setTurnLabel()
+    private fun setScoreBoard(){
+        activityGameBinding.firstPlayerScore.text = firstPlayerScore.toString()
+        activityGameBinding.secondPlayerScore.text = secondPlayerScore.toString()
+    }
+
+    private fun setLabel(winner: String)
+    {
+        activityGameBinding.mainLabel.text = winner
+        Handler(Looper.getMainLooper()).postDelayed({
+            resetBoard()
+            gameIsOver = false
+        }, 2000)
+    }
+    private fun setLabel()
     {
         var turnText = ""
-        if(currentTurn == Turn.CROSS)
-            turnText = "Turn $CROSS"
-        else if(currentTurn == Turn.NOUGHT)
-            turnText = "Turn $NOUGHT"
+        if(currentTurn == 1)
+            turnText = "$firstPlayerName's turn"
+        else
+            turnText = "$secondPlayerName's turn"
 
-        binding.turnTV.text = turnText
+        activityGameBinding.mainLabel.text = turnText
     }
 
-    companion object
-    {
-        const val NOUGHT = "O"
-        const val CROSS = "X"
-    }
 
 }
