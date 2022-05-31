@@ -10,11 +10,13 @@ import android.os.Looper
 import android.view.View
 import android.widget.Button
 import get.tsu.android2022.tictactoe_minimax.databinding.ActivityGameBinding
+import get.tsu.android2022.tictactoe_minimax.utils.MiniMax
 
 class GameActivity : AppCompatActivity() {
 
     private var currentTurn = 1
     private var gameIsOver = false
+    private var isAI = false
 
     private var firstPlayerScore = 0
     private var secondPlayerScore = 0
@@ -24,7 +26,7 @@ class GameActivity : AppCompatActivity() {
 
     private var boardList = mutableListOf<Button>()
 
-
+    private lateinit var minimax: MiniMax;
     private lateinit var sp: SharedPreferences
     private lateinit var activityGameBinding: ActivityGameBinding
 
@@ -44,6 +46,10 @@ class GameActivity : AppCompatActivity() {
         secondPlayerName = sp.getString("FRIENDS_NAME","LAMARA").toString()
         activityGameBinding.firstPlayerName.text = firstPlayerName
         activityGameBinding.secondPlayerName.text = secondPlayerName
+        if(secondPlayerName == "AGENT") {
+            isAI = true
+            minimax = MiniMax()
+        }
         sp.edit().apply{
             remove("YOUR_NAME")
             remove("FRIENDS_NAME")
@@ -77,49 +83,51 @@ class GameActivity : AppCompatActivity() {
             return
         if(!gameIsOver) {
             addToBoard(view)
-
-            var isNoughtVictorious = checkForVictory("O")
-            var isCrossVictorious = checkForVictory("X")
-
-            if (isCrossVictorious) {
-                gameIsOver = true
-                firstPlayerScore++
-                setLabel("$firstPlayerName has won")
-                setScoreBoard()
-            } else if (isNoughtVictorious) {
-                gameIsOver = true
-                secondPlayerScore++
-                setLabel("$secondPlayerName has won")
-                setScoreBoard()
-            }
-
-            if (!isCrossVictorious && !isNoughtVictorious && fullBoard()) {
-                gameIsOver = true
-                setLabel("Draw")
+            checkForVictoryAndSetLables()
+            if(!gameIsOver && isAI && currentTurn == 0) {
+                var buttonAiClicked: Button = addToBoardAI()
+                addToBoard(buttonAiClicked)
+                checkForVictoryAndSetLables()
             }
         }
+    }
 
+    private fun checkForVictoryAndSetLables(){
+        var isNoughtVictorious = checkForVictory("O")
+        var isCrossVictorious = checkForVictory("X")
+
+        if (isCrossVictorious) {
+            gameIsOver = true
+            firstPlayerScore++
+            setLabel("$firstPlayerName has won")
+            setScoreBoard()
+        } else if (isNoughtVictorious) {
+            gameIsOver = true
+            secondPlayerScore++
+            setLabel("$secondPlayerName has won")
+            setScoreBoard()
+        }
+
+        if (!isCrossVictorious && !isNoughtVictorious && fullBoard()) {
+            gameIsOver = true
+            setLabel("Draw")
+        }
     }
 
     private fun checkForVictory(s: String): Boolean
     {
-        //Horizontal Victory
         if(match(activityGameBinding.a1,s) && match(activityGameBinding.a2,s) && match(activityGameBinding.a3,s))
             return true
         if(match(activityGameBinding.b1,s) && match(activityGameBinding.b2,s) && match(activityGameBinding.b3,s))
             return true
         if(match(activityGameBinding.c1,s) && match(activityGameBinding.c2,s) && match(activityGameBinding.c3,s))
             return true
-
-        //Vertical Victory
         if(match(activityGameBinding.a1,s) && match(activityGameBinding.b1,s) && match(activityGameBinding.c1,s))
             return true
         if(match(activityGameBinding.a2,s) && match(activityGameBinding.b2,s) && match(activityGameBinding.c2,s))
             return true
         if(match(activityGameBinding.a3,s) && match(activityGameBinding.b3,s) && match(activityGameBinding.c3,s))
             return true
-
-        //Diagonal Victory
         if(match(activityGameBinding.a1,s) && match(activityGameBinding.b2,s) && match(activityGameBinding.c3,s))
             return true
         if(match(activityGameBinding.a3,s) && match(activityGameBinding.b2,s) && match(activityGameBinding.c1,s))
@@ -166,6 +174,22 @@ class GameActivity : AppCompatActivity() {
             button.text = "O"
         }
         setLabel()
+    }
+
+    private fun addToBoardAI(): Button {
+        var board = arrayOf(
+            charArrayOf('_', '_', '_'),
+            charArrayOf('_', '_', '_'),
+            charArrayOf('_', '_', '_')
+        )
+
+        for (i in 0..8) {
+            if(boardList[i].text != "")
+            board[i / 3][i % 3] = boardList[i].text.single()
+        }
+        var agentsMove: MiniMax.Move = minimax.findBestMove(board)!!
+        var index = agentsMove.row * 3 + agentsMove.col
+        return boardList[index]
     }
 
     private fun setScoreBoard(){
