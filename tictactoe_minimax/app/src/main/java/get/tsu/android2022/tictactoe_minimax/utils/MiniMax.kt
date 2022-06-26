@@ -9,13 +9,13 @@ class MiniMax {
     var player = 'O'
     var opponent = 'X'
 
-
+    // ამოწმებს არის თუ არა დარჩენილი რაიმე მოძრაობა (თუ არა ფრეა)
     fun isMovesLeft(board: Array<CharArray>): Boolean {
         for (i in 0..2) for (j in 0..2) if (board[i][j] == '_') return true
         return false
     }
 
-
+    // ამოწმებს მოიგო თუ არა რომელიმე მოთამაშემ
     fun evaluate(b: Array<CharArray>): Int {
         for (row in 0..2) {
             if (b[row][0] == b[row][1] &&
@@ -40,6 +40,7 @@ class MiniMax {
         return 0
     }
 
+    // მინიმაქსის ალგორითმი
     fun minimax(
         board: Array<CharArray>,
         depth: Int, isMax: Boolean
@@ -90,6 +91,7 @@ class MiniMax {
         }
     }
 
+    // პოულობს შემდეგ საუკეთესო მოძრაობას
     fun findBestMove(board: Array<CharArray>): Move? {
         var bestVal = -1000
         val bestMove = Move()
