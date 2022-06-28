@@ -1,39 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                      xmlns:tools="http://schemas.android.com/tools"
-                                                      android:layout_width="match_parent"
-                                                      android:layout_height="match_parent"
-                                                      tools:context=".MainActivity">
-    <LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.MainActivity">
+
+
+    <Spinner
+            android:layout_width="303dp"
+            android:layout_height="46dp" android:id="@+id/categorySpinner"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.296"
+            android:entries="@array/categoryOptions"/>
+    <TextView
+            android:text="Difficulty"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true">
-        <TextView
-                android:id="@+id/textView1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:text="What do you know about Sematext Docker Agent?"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-        <RadioGroup
-                android:id="@+id/radioGroup1"
-                android:layout_width="match_parent"
-                android:padding="20dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.04" >
-
-        </RadioGroup>
-
-
-        <Button
-                android:id="@+id/button1"
-                android:layout_width="340dp"
-                android:layout_height="60dp"
-                android:text="Next"
-                android:textColor="#ffffff"
-                android:textSize="25dp"/>
-
-    </LinearLayout>
-</RelativeLayout>
+            android:layout_height="wrap_content" android:id="@+id/textView4"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintVertical_bias="0.381"
+            android:textSize="24sp" app:layout_constraintHorizontal_bias="0.496"/>
+    <TextView
+            android:text="Category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/textView2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintVertical_bias="0.22"
+            android:textSize="24sp" app:layout_constraintHorizontal_bias="0.498"/>
+    <RadioGroup
+            android:layout_width="354dp"
+            android:layout_height="34dp"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.508" app:layout_constraintVertical_bias="0.645"
+            android:orientation="horizontal" android:id="@+id/numberOfQuestionsGroup">
+        <RadioButton
+                android:text="5"
+                android:layout_width="113dp"
+                android:layout_height="wrap_content" android:id="@+id/radioButton" tools:layout_editor_absoluteY="493dp"
+                tools:layout_editor_absoluteX="38dp" android:checked="true"/>
+        <RadioButton
+                android:text="10"
+                android:layout_width="121dp"
+                android:layout_height="wrap_content" android:id="@+id/radioButton2"/>
+        <RadioButton
+                android:text="15"
+                android:layout_width="143dp"
+                android:layout_height="wrap_content" android:id="@+id/radioButton3" android:layout_weight="1"/>
+    </RadioGroup>
+    <Spinner
+            android:layout_width="303dp"
+            android:layout_height="46dp" android:id="@+id/difficultySpinner"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.465"
+            android:entries="@array/difficultyOptions"/>
+    <TextView
+            android:text="Number of questions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/textView5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintVertical_bias="0.556"
+            android:textSize="24sp" app:layout_constraintHorizontal_bias="0.497"/>
+    <TextView
+            android:text="Select quizz options"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/textView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintVertical_bias="0.081"
+            android:textSize="30sp"/>
+    <Button
+            android:text="Take quizz"
+            android:layout_width="244dp"
+            android:layout_height="72dp" android:id="@+id/takeQuizz"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintVertical_bias="0.837"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

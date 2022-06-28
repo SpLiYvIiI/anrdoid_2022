@@ -1,3 +1,17 @@
 <resources>
-    <string name="app_name">Quizz App</string>
+	<string name="app_name">Quizz App</string>
+	<string name="hello_blank_fragment">Hello blank fragment</string>
+	<string-array name="difficultyOptions">
+		<item>Easy</item>
+		<item>Medium</item>
+		<item>Hard</item>
+	</string-array>
+	<string-array name="categoryOptions">
+		<item>DevOps</item>
+		<item>SQL</item>
+		<item>Docker</item>
+		<item>Code</item>
+		<item>CMS</item>
+		<item>Linux</item>
+	</string-array>
 </resources>
